@@ -1,0 +1,98 @@
+.story {
+  width: 75%;
+  // center the element
+  margin: 0 auto;
+  box-shadow: 0 3rem 6rem rgba($color-black, .1);
+  background-color: rgba($color-white, .6);
+  border-radius: $border-radius-default;
+  padding: 6rem;
+  padding-left: 9rem;
+  font-size: $default-font-size;
+  // trasform all elements
+  transform: skewX(-12deg);
+  // for all direct children remove the skewX. this will not work as we have another transform in the story__shape.
+  // In CSS the is no way to have two transform properties at the same time.
+  // & > * {
+  //   transform: skewX(12deg);
+  // }
+
+  @include respond(tab-port) {
+    width: 100%;
+    padding: 4rem;
+    padding-left: 7rem;
+  }
+
+  @include respond(phone) {
+    transform: skewX(0);
+  }
+
+  &__shape {
+    // width and height are mandatory for shape-outside to work
+    width: 15rem;
+    height: 15rem;
+    // In order the rest of the content to flow around it. Required for shape-outside.
+    float:left;
+    // best way to move floading elements
+    transform: translateX(-3rem) skewX(12deg);
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+
+  @supports (-webkit-clip-path: polygon(0 0)) or (clip-path: polygon(0 0)) {
+       // shape-outside only tells to other elements to wrap around this one following specific shape. It does not shape the actual element.
+       -webkit-shape-outside: circle(50% at 50% 50%);
+       shape-outside: circle(50% at 50% 50%);
+        // create the container to be a circle
+        -webkit-clip-path: circle(50% at 50% 50%);
+        clip-path: circle(50% at 50% 50%);
+        border-radius: none;
+  }
+  
+    @include respond(phone) {
+      transform: translateX(-1rem) skewX(0);
+    }
+  }
+// images always need width or height!!!
+  &__img {
+    height: 100%;
+    transform: translateX(-3rem) scale(1.4);
+    backface-visibility: hidden;
+    transition: all .5s;
+  }
+
+  &__text {
+    transform: skewX(12deg);
+    @include respond(phone) {
+      transform: skewX(0);
+    }
+  }
+
+  &__caption {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    // lower than middle so we can animate motion on hover
+    transform: translate(-50%, 20%);
+    color: $color-white;
+    text-transform: uppercase;
+    font-size: 1.7rem;
+    text-align: center;
+    // not visible
+    opacity: 0;
+    // we need it so translate is actioally animated
+    transition: all .5s;
+    // fix the small shaking at the end of the animation
+    backface-visibility: hidden;
+  }
+
+  &:hover &__caption {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+
+  &:hover &__img {
+    transform: translateX(-3rem) scale(1);
+    // brightness value < 100% => darker value > 100% => lighter
+    filter: blur(.3rem) brightness(80%);
+  }
+}

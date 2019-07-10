@@ -1,0 +1,80 @@
+@mixin clearfix {
+  &::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* 
+MEDIA QUERIES MANAGER
+  0 - 600px: Phones
+  600px - 900px: Tablets Portrait
+  900px - 1200px: Tablet Landskape
+  [1200px - 1800px]: Normal code without media query
+  1800px + : Huge desktops
+*/
+
+/* One way is to have separate mixins for each size : 
+@mixin respond-phone {
+  @media (max-width: 600px) {
+    @content;
+  }
+} 
+@content -> Allows us to pass everything placed into the mixin.
+Usage:
+@include respond-phone {
+  font-size: 50%;
+  ...more content 
+}
+*/
+
+/* Better way is to write one mixin accepting arguments and mapping it to resolution.
+Usage Example:
+@include respond(phone) {
+  ...content
+}
+$breakpoint choices:
+- phone
+- tab-port
+- tab-land
+- big-desktop
+
+ORDER OF PAGE MODIFICATIONS FOR RESPONSIVE:
+base + typography -> general layout + grid -> page layout -> components
+*/
+@mixin respond($breakpoint) {
+  @if ($breakpoint == phone) {
+    /* 
+    In media queries 1 rem or em is alway what comes from the user browser and cannot be over-written. 
+    Default is 16px.
+    We should use ems as rems sometimes fail in the media queries. 
+    We should not use pixes as then we will override the user preferences.
+    */
+    @media (max-width: 37.5em) { //600px
+      @content;
+    }
+  }
+  @if ($breakpoint == tab-port) {
+    @media (max-width: 56.25em) { //900px
+      @content;
+    }
+  }
+  @if ($breakpoint == tab-land) {
+    @media (max-width: 75em) { //1200px
+      @content;
+    }
+  }
+  @if ($breakpoint == big-desktop) {
+    @media (min-width: 112.5em) { //1800px
+      @content;
+    }
+  }
+}

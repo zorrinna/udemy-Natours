@@ -1,0 +1,32 @@
+.feature-box {
+  background-color: rgba($color-white, .8);
+  font-size: 1.5rem;
+  padding: 2.5rem;
+  text-align: center;
+  border-radius: $border-radius-default;
+  box-shadow: $box-shadow-medium;
+  transition: transform .2s;
+
+  @include respond(tab-port) {
+    padding: 2rem;
+  }
+
+  &__icon {
+    font-size: 6rem;
+    margin-bottom: .5rem;
+    background-image: linear-gradient(to right, $color-primary-light, $color-primary-dark);
+    // make the element width equal to its content
+    display: inline-block;
+    // make the background to appear only where the text is.
+    -webkit-background-clip: text;
+    // make the text transparent to see the background.
+    color: transparent;
+
+    @include respond(tab-port) {
+      margin-bottom: 0;
+    }
+  }
+  &:hover {
+    transform: translateY(-1.5rem) scale(1.03);
+  }
+}

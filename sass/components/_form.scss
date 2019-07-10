@@ -1,0 +1,112 @@
+.form {
+  &__group {
+    &:not(:last-child) {
+      margin-bottom: 2rem;
+    }
+  }
+
+  &__input {
+    // browsers by default change the font family and color
+    font-family: inherit;
+    color: inherit;
+    font-size: 1.5rem;
+    // form inputs look better with more padding on the sides
+    padding: 1.5rem 2rem;
+    border-radius: $border-radius-small;
+    background-color: rgba($color-white, 0.5);
+    border: none;
+    // we add that so the form input does not change size when focus
+    border-bottom: 0.3rem solid transparent;
+    display: block;
+    width: 90%;
+    transition: all 0.3s;
+
+    @include respond(tab-port) {
+      width: 100%;
+    }
+
+    // when the cursor is int he input
+    &:focus {
+      // for accessibility we should never just leave the focus field unrecognizable. This is why we add shadow and border at the bottom
+      outline: none;
+      box-shadow: $box-shadow-light;
+      border-bottom: 0.3rem solid $color-primary;
+
+      &:invalid {
+        border-bottom: 0.3rem solid $color-secondary-dark;
+      }
+    }
+
+    &::-webkit-input-placeholder {
+      color: $color-grey-dark-2;
+    }
+  }
+
+  &__label {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-left: 2rem;
+    margin-top: 0.7rem;
+    display: block;
+    transition: all 0.3s;
+  }
+
+  // + selects the first sibling after the selected element. So the first sibiling after the form__input
+  // ~ general sibling selector -> select another element on the same levelcoming after this element
+  &__input:placeholder-shown + &__label {
+    opacity: 0;
+    visibility: hidden;
+    // animate moving down to final place
+    transform: translateY(-4rem);
+  }
+
+  // STYLE RAIO BUTTONS OR CHECKBOXES
+  &__radio-group {
+    width: 49%;
+    display: inline-block;
+
+    @include respond(tab-port) {
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+  }
+
+  &__radio-input {
+    display: none;
+  }
+
+  &__radio-label {
+    font-size: $default-font-size;
+    // makes the cursor look like a link
+    cursor: pointer;
+    position: relative;
+    padding-left: 4.5rem; 
+  }
+
+  &__radio-button {
+    height: 3rem;
+    width: 3rem;
+    border: .5rem solid $color-primary;
+    border-radius: 50%;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: -.4rem;
+
+    &:after {
+      content: "";
+      height: 1.3rem;
+      width: 1.3rem;
+      display: block;
+      border-radius: 50%;
+      @include centered;
+      background-color: $color-primary;
+      opacity: 0;
+      transition: opacity .2s;
+    }
+  }
+  // when the radio-input is checked select its sibling's (radio-label) child called radio-buton.
+  &__radio-input:checked ~ &__radio-label &__radio-button::after {
+    opacity: 1;
+  }
+}

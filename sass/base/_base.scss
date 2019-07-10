@@ -1,0 +1,40 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  // defines what 1rem is
+  font-size: 62.5%; //1rem = 10px; 10px/16px = 62.5%
+
+  @include respond(big-desktop) {
+    font-size: 75%; //1rem = 12px
+  }
+
+  @include respond(tab-land) {
+    font-size: 56.25%; //1rem = 9px
+  }
+
+  @include respond(tab-port) {
+    font-size: 50%; //1rem = 8px
+  }
+
+  /* 
+  Since the phone and the tablet are the same font-size we do not to declare both as the tab-port is for max-size
+  @include respond(phone) {
+    font-size: 50%;
+  }
+  */
+}
+
+body {
+  padding: 3rem; /* adds border around the entire page */
+  box-sizing: border-box;
+
+  @include respond(tab-port) {
+    padding: 0;
+  }
+}

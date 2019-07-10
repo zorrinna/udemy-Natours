@@ -1,0 +1,63 @@
+.row {
+  max-width: $grid-width; // max-width used only if it is available. If not fills 100%. 1140 px is a standard.
+  margin: 0 auto; // center element into the viewport. Center block element inside another block element.
+
+  &:not(:last-child) {
+    margin-bottom: $gutter-vertical;
+
+    @include respond(tab-port) {
+      margin-bottom: $gutter-vertical-small;
+    }
+  }
+
+  @include respond(tab-port) {
+    max-width: $grid-width-small;
+    padding: 0 3rem;
+  }
+
+  @include clearfix;
+
+  // Attribute selector based on class. If we want to be simple for attribute: [alt="Logo"]
+  // ^= means starting with the given value.
+  [class^="col-"] {
+    // float is required for fload layout to work
+    float: left;
+
+    &:not(:last-child) {
+      margin-right: $gutter-horizontal;
+      // Since columns now are rows margin is not needed
+      @include respond(tab-port) {
+        margin-right: 0;
+        margin-bottom: $gutter-vertical-small;
+      }
+    }
+    // We remove the column design and transform them to rows.
+    @include respond(tab-port) {
+      width: 100% !important;
+    }
+  }
+  .col-1-of-2 {
+    // calc() allows us to do calculations while mixing units. This can occur only on render time.
+    width: calc((100% - #{$gutter-horizontal}) / 2);
+  }
+
+  .col-1-of-3 {
+    width: calc((100% - 2 * #{$gutter-horizontal}) / 3);
+  }
+
+  .col-2-of-3 {
+    width: calc(2 * ((100% - 2 * #{$gutter-horizontal}) / 3 ) + #{$gutter-horizontal});
+  }
+
+  .col-1-of-4 {
+    width: calc((100% - 3 * #{$gutter-horizontal}) / 4);
+  }
+
+  .col-2-of-4 {
+    width: calc(2 * ((100% - 3 * #{$gutter-horizontal}) / 4) + #{$gutter-horizontal});
+  }
+
+  .col-3-of-4 {
+    width: calc(3 * ((100% - 3 * #{$gutter-horizontal}) / 4) + 2 * #{$gutter-horizontal});
+  }
+}
